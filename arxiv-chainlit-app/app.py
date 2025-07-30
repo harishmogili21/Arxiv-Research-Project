@@ -113,24 +113,12 @@ Please provide a detailed analysis addressing the question while considering:
 5. Relevance to current research trends
 """
             
-            # Use Mistral Agents API instead of chat completions
-            agent_id = os.getenv("MISTRAL_AGENT_ID", "ag:01234567-89ab-cdef-0123-456789abcdef")
-            
-            try:
-                # Try using agents API first
-                response = mistral_client.agents.complete(
-                    agent_id=agent_id,
-                    messages=[{"role": "user", "content": analysis_prompt}]
-                )
-                analysis_content = response.choices[0].message.content
-            except Exception as agent_error:
-                print(f"Agents API failed, falling back to chat: {agent_error}")
-                # Fallback to chat completions if agents API fails
-                response = mistral_client.chat.complete(
-                    model="mistral-large-latest",
-                    messages=[{"role": "user", "content": analysis_prompt}]
-                )
-                analysis_content = response.choices[0].message.content
+            # Use Mistral chat API
+            response = mistral_client.chat.complete(
+                model="mistral-small",
+                messages=[{"role": "user", "content": analysis_prompt}]
+            )
+            analysis_content = response.choices[0].message.content
             
             return {
                 'arxiv_id': arxiv_id,
@@ -190,30 +178,15 @@ Abstract: {abstract}
             if papers_context:
                 system_prompt += f"\n\nCurrent papers in context:\n{papers_context}"
             
-            # Use Mistral Agents API instead of chat completions
-            agent_id = os.getenv("MISTRAL_AGENT_ID", "ag:01234567-89ab-cdef-0123-456789abcdef")
-            
-            try:
-                # Try using agents API first
-                response = mistral_client.agents.complete(
-                    agent_id=agent_id,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": message}
-                    ]
-                )
-                response_content = response.choices[0].message.content
-            except Exception as agent_error:
-                print(f"Agents API failed, falling back to chat: {agent_error}")
-                # Fallback to chat completions if agents API fails
-                response = mistral_client.chat.complete(
-                    model="mistral-large-latest",
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": message}
-                    ]
-                )
-                response_content = response.choices[0].message.content
+            # Use Mistral chat API
+            response = mistral_client.chat.complete(
+                model="mistral-small",
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": message}
+                ]
+            )
+            response_content = response.choices[0].message.content
             
             return {
                 'response': response_content,

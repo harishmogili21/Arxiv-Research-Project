@@ -180,19 +180,17 @@ def get_paper_details(arxiv_id: str) -> Dict[str, Any]:
 @mcp.tool()
 def analyze_paper_with_mistral(
     arxiv_id: str,
-    question: str = "Provide a comprehensive analysis of this paper",
-    agent_id: str = "ag:01234567-89ab-cdef-0123-456789abcdef"
+    question: str = "Provide a comprehensive analysis of this paper"
 ) -> Dict[str, Any]:
     """
-    Analyze a paper using Mistral's agents API
+    Analyze a paper using Mistral AI
     
     Args:
         arxiv_id: arXiv paper ID
         question: Specific question or analysis request
-        agent_id: Mistral agent ID to use for analysis
     
     Returns:
-        Analysis results from Mistral agent
+        Analysis results from Mistral AI
     """
     try:
         # Get paper details
@@ -228,35 +226,22 @@ Please provide a detailed analysis addressing the question while considering:
 5. Relevance to current research trends
 """
         
-        # Call Mistral agent
-        try:
-            response = mistral_client.agents.complete(
-                agent_id=agent_id,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": analysis_prompt
-                    }
-                ]
-            )
-        except Exception as e:
-            # Fallback to regular chat completion if agents API fails
-            response = mistral_client.chat.complete(
-                model="mistral-large-latest",
-                messages=[
-                    {
-                        "role": "user",
-                        "content": analysis_prompt
-                    }
-                ]
-            )
+        # Call Mistral API
+        response = mistral_client.chat.complete(
+            model="mistral-small",
+            messages=[
+                {
+                    "role": "user",
+                    "content": analysis_prompt
+                }
+            ]
+        )
         
         return {
             "arxiv_id": arxiv_id,
             "paper_title": paper['title'],
             "question": question,
             "analysis": response.choices[0].message.content,
-            "agent_id": agent_id,
             "timestamp": datetime.now().isoformat()
         }
         
@@ -268,20 +253,18 @@ Please provide a detailed analysis addressing the question while considering:
 def chat_about_papers(
     message: str,
     paper_ids: List[str] = None,
-    conversation_history: List[Dict[str, str]] = None,
-    agent_id: str = "ag:01234567-89ab-cdef-0123-456789abcdef"
+    conversation_history: List[Dict[str, str]] = None
 ) -> Dict[str, Any]:
     """
-    Have a conversation about research papers using Mistral agents
+    Have a conversation about research papers using Mistral AI
     
     Args:
         message: User message/question
         paper_ids: List of arXiv IDs to include in context (optional)
         conversation_history: Previous conversation messages (optional)
-        agent_id: Mistral agent ID to use
     
     Returns:
-        Agent response with conversation context
+        AI response with conversation context
     """
     try:
         # Build context from papers
@@ -318,23 +301,15 @@ Please provide helpful, accurate responses about these papers and related resear
         # Add current message
         messages.append({"role": "user", "content": message})
         
-        # Call Mistral agent
-        try:
-            response = mistral_client.agents.complete(
-                agent_id=agent_id,
-                messages=messages
-            )
-        except Exception as e:
-            # Fallback to regular chat completion if agents API fails
-            response = mistral_client.chat.complete(
-                model="mistral-large-latest",
-                messages=messages
-            )
+        # Call Mistral API
+        response = mistral_client.chat.complete(
+            model="mistral-small",
+            messages=messages
+        )
         
         return {
             "response": response.choices[0].message.content,
             "papers_in_context": paper_ids or [],
-            "agent_id": agent_id,
             "timestamp": datetime.now().isoformat()
         }
         

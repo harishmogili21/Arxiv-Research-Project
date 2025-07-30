@@ -121,8 +121,7 @@ def get_paper_details(arxiv_id: str) -> Dict[str, Any]:
 
 def analyze_paper_with_mistral(
     arxiv_id: str,
-    question: str = "Provide a comprehensive analysis of this paper",
-    agent_id: str = "ag:01234567-89ab-cdef-0123-456789abcdef"
+    question: str = "Provide a comprehensive analysis of this paper"
 ) -> Dict[str, Any]:
     """Analyze a paper using Mistral's agents API"""
     try:
@@ -159,8 +158,8 @@ Please provide a detailed analysis addressing the question while considering:
 """
         
         try:
-            response = mistral_client.agents.complete(
-                agent_id=agent_id,
+            response = mistral_client.chat.complete(
+                model="mistral-small",
                 messages=[{"role": "user", "content": analysis_prompt}]
             )
         except Exception:
@@ -174,7 +173,6 @@ Please provide a detailed analysis addressing the question while considering:
             "paper_title": paper['title'],
             "question": question,
             "analysis": response.choices[0].message.content,
-            "agent_id": agent_id,
             "timestamp": datetime.now().isoformat()
         }
         
@@ -185,8 +183,7 @@ Please provide a detailed analysis addressing the question while considering:
 def chat_about_papers(
     message: str,
     paper_ids: List[str] = None,
-    conversation_history: List[Dict[str, str]] = None,
-    agent_id: str = "ag:01234567-89ab-cdef-0123-456789abcdef"
+    conversation_history: List[Dict[str, str]] = None
 ) -> Dict[str, Any]:
     """Have a conversation about research papers"""
     try:
@@ -223,8 +220,8 @@ Please provide helpful, accurate responses about these papers and related resear
         messages.append({"role": "user", "content": message})
         
         try:
-            response = mistral_client.agents.complete(
-                agent_id=agent_id,
+            response = mistral_client.chat.complete(
+                model="mistral-small",
                 messages=messages
             )
         except Exception:
@@ -236,7 +233,6 @@ Please provide helpful, accurate responses about these papers and related resear
         return {
             "response": response.choices[0].message.content,
             "papers_in_context": paper_ids or [],
-            "agent_id": agent_id,
             "timestamp": datetime.now().isoformat()
         }
         
@@ -329,8 +325,7 @@ def handle_mcp_request():
                                 "type": "object",
                                 "properties": {
                                     "arxiv_id": {"type": "string"},
-                                    "question": {"type": "string", "default": "Provide a comprehensive analysis"},
-                                    "agent_id": {"type": "string", "default": "ag:01234567-89ab-cdef-0123-456789abcdef"}
+                                    "question": {"type": "string", "default": "Provide a comprehensive analysis"}
                                 },
                                 "required": ["arxiv_id"]
                             }
@@ -343,8 +338,7 @@ def handle_mcp_request():
                                 "properties": {
                                     "message": {"type": "string"},
                                     "paper_ids": {"type": "array", "items": {"type": "string"}},
-                                    "conversation_history": {"type": "array"},
-                                    "agent_id": {"type": "string", "default": "ag:01234567-89ab-cdef-0123-456789abcdef"}
+                                    "conversation_history": {"type": "array"}
                                 },
                                 "required": ["message"]
                             }
