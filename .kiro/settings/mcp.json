@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "arxiv-research": {
+      "command": "python",
+      "args": [
+        "-u",
+        "arxiv-mcp-server-clean/arxiv_mcp_clean.py"
+      ],
+      "env": {
+        "MISTRAL_API_KEY": "",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "search_arxiv_papers",
+        "get_paper_details",
+        "analyze_paper_with_mistral",
+        "chat_about_papers",
+        "compare_papers"
+      ]
+    }
+  }
+}

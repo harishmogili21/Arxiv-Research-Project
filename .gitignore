@@ -1,0 +1,125 @@
+# Environment Variables and Secrets
+.env
+.env.local
+.env.production
+.env.staging
+*.env
+!.env.example
+
+# API Keys and Sensitive Data
+**/MISTRAL_API_KEY*
+**/api_key*
+**/secret*
+**/token*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Logs
+*.log
+logs/
+log/
+
+# Temporary Files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Chainlit specific
+.chainlit/
+chainlit.md
+
+# MCP Server specific
+*.pid
+*.sock
+
+# Test files
+test_*.py
+*_test.py
+tests/
+
+# Documentation builds
+docs/_build/
+site/
+
+# Local configuration overrides
+local_config.json
+local_settings.json
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Node modules (if any JS dependencies)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Package files
+*.tar.gz
+*.zip
+*.rar
+*.7z

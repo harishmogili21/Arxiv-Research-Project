@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arXiv Paper Chat</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-comments text-blue-600"></i>
+                arXiv Paper Chat
+            </h1>
+            <p class="text-gray-600">Search papers, analyze with AI, and have conversations about research</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Search Panel -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">
+                        <i class="fas fa-search text-blue-600"></i>
+                        Search Papers
+                    </h2>
+                    <div class="space-y-4">
+                        <input type="text" id="searchQuery" placeholder="Enter search terms..." 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button onclick="searchPapers()" 
+                                class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200">
+                            <i class="fas fa-search mr-2"></i>Search
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Selected Papers -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">
+                        <i class="fas fa-bookmark text-green-600"></i>
+                        Selected Papers
+                    </h3>
+                    <div id="selectedPapers" class="space-y-2">
+                        <p class="text-gray-500 text-sm">No papers selected</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:col-span-2">
+                <!-- Search Results -->
+                <div id="searchResults" class="bg-white rounded-lg shadow-md p-6 mb-6 hidden">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">
+                        <i class="fas fa-list text-purple-600"></i>
+                        Search Results
+                    </h3>
+                    <div id="resultsContainer"></div>
+                </div>
+
+                <!-- Chat Interface -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">
+                        <i class="fas fa-robot text-indigo-600"></i>
+                        Chat with Papers
+                    </h3>
+                    
+                    <div id="chatContainer" class="h-96 overflow-y-auto border border-gray-200 rounded-md p-4 mb-4 bg-gray-50">
+                        <div class="text-gray-500 text-center">
+                            Select papers and start chatting!
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-2">
+                        <input type="text" id="chatInput" placeholder="Ask about the selected papers..." 
+                               class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                               onkeypress="handleChatKeyPress(event)">
+                        <button onclick="sendMessage()" 
+                                class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
